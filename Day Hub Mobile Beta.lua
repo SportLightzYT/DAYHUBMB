@@ -1199,7 +1199,6 @@ end
 
 local SOMEXHUB = library:AddWindow("Day Hub | Blox Fruit",Enum.KeyCode.RightControl)
 local Main = SOMEXHUB:AddTab("Main1","6026568198")
-local Combat = SOMEXHUB:AddTab("Main2","7251993295")
 Main:AddSeperator("Main1")
 Time = Main:AddLabel("Server Time")
 function UpdateTime()
@@ -1563,3 +1562,206 @@ spawn(
         )
     end
 )
+local Raids = SOMEXHUB:AddTab("Raids","7251993295")
+Raids:AddSeperator("[ Raids ]")
+Dungeon = {
+    "Flame",
+    "Ice",
+	"Quake",
+	"Light",
+	"Dark",
+	"String",
+	"Rumble",
+	"Magma",
+	"Human: Buddha",
+	"Sand",
+	"Bird: Phoenix",
+	"Dough"
+}
+Raids:AddDropdown("Select Dungeon",Dungeon,function(value)
+    _G.SelectDungeon = value
+end)
+Raids:AddToggle("Kill Aura",false,function(vu)
+    _G.KillAura = vu
+end)
+task.spawn(function()
+    while task.wait() do
+        if _G.KillAura then
+            for i,v in pairs(game.Workspace.Enemies:GetDescendants()) do
+                if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                    pcall(function()
+                        repeat wait()
+                            v.Humanoid.Health = 0
+                            v.HumanoidRootPart.CanCollide = false
+                            sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+                        until not _G.KillAura  or not v.Parent or v.Humanoid.Health <= 0
+                    end)
+                end
+            end
+        end
+    end
+end)
+Raids:AddToggle("Next Island",false,function(vu)
+    _G.NextIsland = vu
+end)
+task.spawn(function()
+	while task.wait() do
+		pcall(function()
+			if _G.NextIsland then
+				if game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 5") then
+					for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
+						if v.Name == "Island 5" and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 2300 then
+							TP2(v.CFrame*CFrame.new(0,70,0))
+						end
+					end
+				elseif game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 4") then
+					for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
+						if v.Name == "Island 4" and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 2000 then
+							TP2(v.CFrame*CFrame.new(0,70,0))
+						end
+					end
+				elseif game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 3") then
+					for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
+						if v.Name == "Island 3" and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 2100 then
+							TP2(v.CFrame*CFrame.new(0,70,0))
+						end
+					end
+				elseif game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 2") then
+					for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
+						if v.Name == "Island 2" and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 2000 then
+							TP2(v.CFrame*CFrame.new(0,10,0))
+						end
+					end
+				elseif game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island ") then
+					for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
+						if v.Name == "Island " and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 2000 then
+							TP2(v.CFrame*CFrame.new(0,70,0))
+						end
+					end
+				else
+					wait()
+				end
+			else
+				wait()
+			end
+		end)
+	end
+end)
+Raids:AddToggle("Auto Awakener",false,function(vu)
+    _G.Auto_Awakener = vu
+end)
+task.spawn(function()
+    while task.wait() do
+        if _G.Auto_Awakener then
+            pcall(function()
+                local args = {
+                    [1] = "Awakener",
+                    [2] = "Check"
+                }
+                
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                local args = {
+                    [1] = "Awakener",
+                    [2] = "Awaken"
+                }
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+            end)
+        end
+    end
+end)
+Raids:AddToggle("Auto Start Dungeon",false,function(vu)
+    _G.Auto_Start_Dungeon = vu
+end)
+task.spawn(function()
+	while task.wait(.1) do
+		if _G.Auto_Start_Dungeon then
+			pcall(function()
+				if New_World then
+					if not game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 1") then
+						if game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") then 
+							fireclickdetector(game.Workspace.Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
+						end
+					end
+				elseif Three_World then
+					if not game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 1") then
+						if game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") then
+							fireclickdetector(game.Workspace.Map["Boat Castle"].RaidSummon2.Button.Main.ClickDetector)
+						end
+					end
+				end
+			end)
+		end
+	end
+end)
+Raids:AddToggle("Auto Buy Chips Select",false,function(vu)
+_G.AutoBuyChipsSelect = vu
+end)
+task.spawn(function()
+    while task.wait() do
+        if _G.AutoBuyChipsSelect then
+            pcall(function()
+                local args = {
+                    [1] = "RaidsNpc",
+                    [2] = "Select",
+                    [3] = _G.SelectDungeon
+                }
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+            end)
+        end
+    end
+end)
+Raids:AddButton("Buy Chip Select",function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("RaidsNpc","Select",_G.SelectDungeon)
+end)
+Raids:AddButton("Start Raid",function()
+    if New_World then
+        fireclickdetector(game:GetService("Workspace").Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
+    elseif Three_World then
+        fireclickdetector(game:GetService("Workspace").Map["Boat Castle"].RaidSummon2.Button.Main.ClickDetector)
+    end
+end)
+Raids:AddSeperator("[ Shop ]")
+Raids:AddButton("Buy Superhuman",function()
+    local args = {
+        [1] = "BuySuperhuman"
+    }
+
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+
+Raids:AddButton("Buy Death Step",function()
+    local args = {
+        [1] = "BuyDeathStep"
+    }
+
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+
+Raids:AddButton("Buy Shakman Karate",function()
+    local args = {
+        [1] = "BuySharkmanKarate",
+        [2] = true
+    }
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+    local args = {
+        [1] = "BuySharkmanKarate"
+    }
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+Raids:AddButton("Buy Electric Claw",function()
+    local args = {
+        [1] = "BuyElectricClaw"
+        }
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+
+Raids:AddButton("Buy Dragon Talon",function()
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyDragonTalon")
+        end)
+Raids:AddButton("Buy God Human",function()
+            local args = {
+            [1] = "BuyGodhuman"
+        }
+        
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
